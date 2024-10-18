@@ -3,7 +3,9 @@ const signUp = async (req,res) => {
     try{
         const {email,firstName, lastName,password}  = req.body
         console.log(email,firstName,lastName)
-        const user = await userModel.create({email,firstName,lastName,password})
+        const user = await (await userModel.create({email,firstName,lastName,password})).save()
+        // await user.save()
+        console.log(user)
         if(!user) throw new Error("User not created.")
         return res.status(200).json({
     data: user})

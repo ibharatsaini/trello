@@ -4,7 +4,7 @@ function About() {
   const [ msg, setMsg ] = useState("");
    
   useEffect(() => {
-    fetch(`status`)
+    fetch(`api/status`)
       .then((res) => res.json())
       .then((data) => {
         console.log(data)
