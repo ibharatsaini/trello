@@ -2,11 +2,12 @@ import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import About from "./About";
 import Test from "./Test";
+import Signup from "./Components/Signup";
 
 
 function App() {
   return (
-    <div className="App">
+    <div className="w-full text-center min-h-screen">
       {/* <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
@@ -24,7 +25,7 @@ function App() {
       <header>Class</header>
       <Routes>
         <Route path="/">
-          {/* <Route index element={<Home />} /> */}
+          <Route index element={<Signup />} />
           <Route path="about" element={ <About /> } />
           <Route path="test" element={ <Test /> } />
           {/* <Route path="dashboard" element={<Dashboard />} /> */}

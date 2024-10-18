@@ -8,7 +8,7 @@ const bodyParser = require("body-parser")
 const cookieParser = require("cookie-parser")
 const cors = require("cors")
 const statusRouter = require("./router/status.router")
-
+const authRouter = require("./router/auth.routes")
 const app = express()
 
 app.use(cors())
@@ -21,7 +21,8 @@ app.use(express.static(path.resolve(__dirname, "..","frontend","build")))
 
 
 
-app.use("/",statusRouter)
+app.use("/api",statusRouter)
+app.use("/api/auth",authRouter)
 
 
 
