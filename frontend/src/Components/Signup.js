@@ -11,6 +11,9 @@ function Signup() {
   function handleSubmit(){
     console.log(signup)
     fetch(`/api/auth/sign-up`,{
+        headers:{
+            "Content-Type":"application/json"
+        },
         method:"POST",
         body:JSON.stringify(signup)
     }).then((res)=>res.json())
