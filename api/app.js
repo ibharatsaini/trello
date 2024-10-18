@@ -21,8 +21,8 @@ app.use(express.static(path.resolve(__dirname, "..","frontend","build")))
 
 
 
-app.use("/api",statusRouter)
-app.use("/api/auth",authRouter)
+app.use("/status",statusRouter)
+app.use("/auth",authRouter)
 // const app = require("./app")
 const database = require("./config/database")
 // dotenv.config({path:"./.env"})
