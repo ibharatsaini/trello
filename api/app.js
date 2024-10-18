@@ -23,6 +23,11 @@ app.use(express.static(path.resolve(__dirname, "..","frontend","build")))
 
 app.use("/api",statusRouter)
 app.use("/api/auth",authRouter)
+// const app = require("./app")
+const database = require("./config/database")
+// dotenv.config({path:"./.env"})
+
+
 
 
 
@@ -33,5 +38,14 @@ if(process.env.NODE_ENV=='production'){
          res.sendFile(path.resolve(__dirname, "..",'frontend', 'build', 'index.html'))
     });
 }
+
+const PORT = process.env.PORT || 8080
+
+
+app.listen(PORT,()=>{
+    console.log(`Express Server started on port: `,PORT)
+    database()
+})
+
 
 module.exports = app
