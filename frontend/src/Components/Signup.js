@@ -10,7 +10,7 @@ function Signup() {
 
   function handleSubmit(){
     console.log(signup)
-    fetch(`/api/user/sign-up`,{
+    fetch(`/api/auth/sign-up`,{
         method:"POST",
         body:JSON.stringify(signup)
     }).then((res)=>res.json())
