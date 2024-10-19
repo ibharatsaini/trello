@@ -37,7 +37,7 @@ app.use(express.static(path.resolve(__dirname, "..", "frontend", "build")));
 //         res.sendFile(path.resolve(__dirname, '..', 'frontend', 'build', 'index.html'));
 //     });
 // }
-app.use(database)
+// app.use(database)
 app.use("/api/status", statusRouter);
 app.use("/api/auth", authRouter);
 
