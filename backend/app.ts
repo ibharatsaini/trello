@@ -40,11 +40,11 @@ app.use(express.static(path.resolve(__dirname, "..", "frontend", "build")));
 app.use("/api/status", statusRouter);
 app.use("/api/auth", authRouter);
 
-app.use((req: Request, res: Response) => {
-  res
-    .status(404)
-    .json({ message: "Route not found", req: req.method, d: req.url });
-});
+// app.use((req: Request, res: Response) => {
+//   res
+//     .status(404)
+//     .json({ message: "Route not found", req: req.method, d: req.url });
+// });
 
 // export const handler = serverless(app);
 export default app;
