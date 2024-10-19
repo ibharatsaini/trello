@@ -10,6 +10,8 @@ import cors from 'cors';
 import statusRouter from './router/status.router'
 import authRouter from './router/auth.routes';
 import database from './config/database'
+import serverless from "serverless-http";
+
 
 const app = express();
 
@@ -41,4 +43,6 @@ app.listen(PORT, () => {
     database();
 });
 
-export default app;
+export const handler = serverless(app);
+
+
