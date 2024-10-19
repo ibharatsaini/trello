@@ -16,6 +16,7 @@ const cors_1 = __importDefault(require("cors"));
 // import serverless from "serverless-http";
 const auth_routes_1 = __importDefault(require("./api/auth.routes"));
 const status_router_1 = __importDefault(require("./api/status.router"));
+const database_1 = __importDefault(require("./config/database"));
 const app = (0, express_1.default)();
 // Middleware setup
 app.use((0, cors_1.default)());
@@ -34,6 +35,7 @@ app.use(express_1.default.static(path_1.default.resolve(__dirname, "..", "fronte
 //         res.sendFile(path.resolve(__dirname, '..', 'frontend', 'build', 'index.html'));
 //     });
 // }
+app.use(database_1.default);
 app.use("/api/status", status_router_1.default);
 app.use("/api/auth", auth_routes_1.default);
 app.use((req, res) => {

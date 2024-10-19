@@ -14,5 +14,6 @@ const database = () => {
     })
         .then(data => console.log(`Database started at:- ${data.connection.host}`))
         .catch(e => console.log(e));
+    return;
 };
 exports.default = database;
