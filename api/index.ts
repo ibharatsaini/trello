@@ -24,8 +24,8 @@ app.use(express.json());
 app.use(express.static(path.resolve(__dirname, '..', 'frontend', 'build')));
 
 // Routers
-app.use('/status', statusRouter);
-app.use('/auth', authRouter);
+app.use('/api/status', statusRouter);
+app.use('/api/auth', authRouter);
 
 
 if (process.env.NODE_ENV === 'production') {
