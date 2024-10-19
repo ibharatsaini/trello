@@ -6,7 +6,7 @@ const signUp = async (req:Request,res:Response) => {
     try{
         const {email,firstName, lastName,password}  = req.body
         console.log(email,firstName,lastName)
-        // const user = await (await User.create({email,firstName,lastName,password})).save()
+        const user = await (await User.create({email,firstName,lastName,password})).save()
         // // await user.save()
         // console.log(user)
         // if(!user) throw new Error("User not created.")
