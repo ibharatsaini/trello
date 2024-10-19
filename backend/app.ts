@@ -3,8 +3,7 @@ import dotenv from "dotenv";
 dotenv.config({ path: ".env" });
 
 // Importing modules
-import express, { Request, Response } from "express";
-import bodyParser from "body-parser";
+import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 // import statusRouter from "./api/status.router";
@@ -37,8 +36,8 @@ app.use(express.static(path.resolve(__dirname, "..", "frontend", "build")));
 //     });
 // }
 
-app.use("/api/status", statusRouter);
-app.use("/api/auth", authRouter);
+app.use("/api/status/", statusRouter);
+app.use("/api/auth/", authRouter);
 
 // app.use((req: Request, res: Response) => {
 //   res
