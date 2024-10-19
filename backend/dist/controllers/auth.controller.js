@@ -8,23 +8,23 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.signUp = void 0;
-const user_model_1 = __importDefault(require("../models/user.model"));
 const signUp = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { email, firstName, lastName, password } = req.body;
         console.log(email, firstName, lastName);
-        const user = yield (yield user_model_1.default.create({ email, firstName, lastName, password })).save();
-        // await user.save()
-        console.log(user);
-        if (!user)
-            throw new Error("User not created.");
+        // const user = await (await User.create({email,firstName,lastName,password})).save()
+        // // await user.save()
+        // console.log(user)
+        // if(!user) throw new Error("User not created.")
         res.status(200).json({
-            data: user
+            data: {
+                email,
+                firstName,
+                lastName,
+                password
+            }
         });
         return;
     }
