@@ -13,7 +13,6 @@ import cors from "cors";
 // import serverless from "serverless-http";
 import authRouter from "./api/auth.routes";
 import statusRouter from "./api/status.router";
-import database from "./config/database";
 
 const app = express();
 

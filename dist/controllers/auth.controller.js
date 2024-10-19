@@ -21,14 +21,10 @@ const signUp = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const user = yield (yield user_model_1.default.create({ email, firstName, lastName, password })).save();
         // // await user.save()
         // console.log(user)
-        // if(!user) throw new Error("User not created.")
+        if (!user)
+            throw new Error("User not created.");
         res.status(200).json({
-            data: {
-                email,
-                firstName,
-                lastName,
-                password
-            }
+            data: user
         });
         return;
     }
