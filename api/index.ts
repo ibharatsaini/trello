@@ -28,13 +28,21 @@ app.use('/api/status', statusRouter);
 app.use('/api/auth', authRouter);
 
 
-if (process.env.NODE_ENV === 'production') {
-    console.log('Production running');
-    console.log(__dirname);
-    app.get('*', (req: Request, res: Response) => {
-        res.sendFile(path.resolve(__dirname, '..', 'frontend', 'build', 'index.html'));
-    });
-}
+app.use((req: Request, res: Response) => {
+    res.status(404).json({ message: 'Route not found',
+        req:req.method,
+        d:req.url
+     });
+});
+
+
+// if (process.env.NODE_ENV === 'production') {
+//     console.log('Production running');
+//     console.log(__dirname);
+//     app.get('*', (req: Request, res: Response) => {
+//         res.sendFile(path.resolve(__dirname, '..', 'frontend', 'build', 'index.html'));
+//     });
+// }
 
 const PORT = process.env.PORT || 8080;
 
