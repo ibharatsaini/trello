@@ -17,10 +17,7 @@ const user_model_1 = __importDefault(require("../models/user.model"));
 const signUp = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { email, firstName, lastName, password } = req.body;
-        console.log(email, firstName, lastName);
         const user = yield (yield user_model_1.default.create({ email, firstName, lastName, password })).save();
-        // // await user.save()
-        // console.log(user)
         if (!user)
             throw new Error("User not created.");
         res.status(200).json({
@@ -30,7 +27,7 @@ const signUp = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
     catch (err) {
         res.status(401).json({
-            message: `User Input invalid.`
+            message: `User Input invalid.`,
         });
         return;
     }
