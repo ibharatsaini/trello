@@ -7,11 +7,12 @@ import express, { Request, Response } from "express";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import statusRouter from "./api/status.router";
+// import statusRouter from "./api/status.router";
+// import authRouter from "./api/auth.routes";
+// import database from "./config/database";
+// import serverless from "serverless-http";
 import authRouter from "./api/auth.routes";
-import database from "./config/database";
-import serverless from "serverless-http";
-import api from "./app";
+import statusRouter from "./api/auth.routes";
 
 const app = express();
 
@@ -36,7 +37,8 @@ app.use(express.static(path.resolve(__dirname, "..", "frontend", "build")));
 //     });
 // }
 
-app.use("/api/v1", api);
+app.use("/api/status", statusRouter);
+app.use("/api/auth", authRouter);
 
 app.use((req: Request, res: Response) => {
   res
