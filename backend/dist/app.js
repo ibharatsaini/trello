@@ -36,32 +36,26 @@ app.use(express_1.default.static(path_1.default.resolve(__dirname, "..", "fronte
 // }
 app.use("/api/status", status_router_1.default);
 app.use("/api/auth", auth_routes_1.default);
-// app.use((req: Request, res: Response) => {
-//   const  routes = app._router.stack.forEach(function(r:any){
-//         if (r.route && r.route.path){
-//           return r.route.path 
-//         }
-//       })
-//   return res
-//     .status(404)
-//     .json({ message: "Route not found", req: req.method, d: req.url , routes});
-// });
-const routes = app._router.stack.forEach((middleware) => {
-    if (middleware.route) { // Route middleware
-        const route = middleware.route;
-        const methods = Object.keys(route.methods).join(', ').toUpperCase();
-        console.log(`${methods} ${route.path}`);
-    }
-    else if (middleware.name === 'router') { // Sub-routes within routers
-        middleware.handle.stack.forEach((handler) => {
-            const route = handler.route;
-            if (route) {
-                const methods = Object.keys(route.methods).join(', ').toUpperCase();
-                console.log(`${methods} ${route.path}`);
-            }
-        });
-    }
+app.use((req, res) => {
+    res
+        .status(404)
+        .json({ message: "Route not found", req: req.method, d: req.url });
 });
-console.log(routes);
+// const routes = app._router.stack.forEach((middleware: any) => {
+//     if (middleware.route) { // Route middleware
+//       const route = middleware.route;
+//       const methods = Object.keys(route.methods).join(', ').toUpperCase();
+//       console.log(`${methods} ${route.path}`);
+//     } else if (middleware.name === 'router') { // Sub-routes within routers
+//       middleware.handle.stack.forEach((handler: any) => {
+//         const route = handler.route;
+//         if (route) {
+//           const methods = Object.keys(route.methods).join(', ').toUpperCase();
+//           console.log(`${methods} ${route.path}`);
+//         }
+//       });
+//     }
+//   });
+//   console.log(routes)
 // export const handler = serverless(app);
 exports.default = app;

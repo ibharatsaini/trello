@@ -43,25 +43,25 @@ app.use("/api/auth", authRouter);
 app.use((req: Request, res: Response) => {
   res
     .status(404)
-    .json({ message: "Route not found", req: req.method, d: req.url , routes})
+    .json({ message: "Route not found", req: req.method, d: req.url })
 });
 
-const routes = app._router.stack.forEach((middleware: any) => {
-    if (middleware.route) { // Route middleware
-      const route = middleware.route;
-      const methods = Object.keys(route.methods).join(', ').toUpperCase();
-      console.log(`${methods} ${route.path}`);
-    } else if (middleware.name === 'router') { // Sub-routes within routers
-      middleware.handle.stack.forEach((handler: any) => {
-        const route = handler.route;
-        if (route) {
-          const methods = Object.keys(route.methods).join(', ').toUpperCase();
-          console.log(`${methods} ${route.path}`);
-        }
-      });
-    }
-  });
-  console.log(routes)
+// const routes = app._router.stack.forEach((middleware: any) => {
+//     if (middleware.route) { // Route middleware
+//       const route = middleware.route;
+//       const methods = Object.keys(route.methods).join(', ').toUpperCase();
+//       console.log(`${methods} ${route.path}`);
+//     } else if (middleware.name === 'router') { // Sub-routes within routers
+//       middleware.handle.stack.forEach((handler: any) => {
+//         const route = handler.route;
+//         if (route) {
+//           const methods = Object.keys(route.methods).join(', ').toUpperCase();
+//           console.log(`${methods} ${route.path}`);
+//         }
+//       });
+//     }
+//   });
+//   console.log(routes)
 
 // export const handler = serverless(app);
 export default app;
