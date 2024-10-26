@@ -7,7 +7,6 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { getCardById, updateCardFields } from "./lib/dbQueries";
 import { CardContext } from "./Board";
 import { DatePickerDemo } from "./components/DatePicker";
-import LabelPopover from "./components/LabelPopover";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";

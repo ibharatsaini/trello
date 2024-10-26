@@ -1,4 +1,3 @@
-import axios from "axios";
 import axiosInstance from "./configureAxios";
 import { LoginInput, UserInput } from "./types";
 

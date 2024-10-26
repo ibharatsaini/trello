@@ -1,4 +1,3 @@
-import React from 'react'
 import JelloImage from '../assets/Jello.webp'
 import { Separator } from '@radix-ui/react-separator'
 

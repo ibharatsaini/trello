@@ -4,7 +4,7 @@ import axiosInstance from "./lib/configureAxios";
 import { SidebarProvider } from "./components/ui/sidebar";
 import { AppSidebar } from "./components/AppSidebar";
 import { useQuery } from "@tanstack/react-query";
-import { getBoard, getCardById, getCards, getLists } from "./lib/dbQueries";
+import { getBoard, getCards, getLists } from "./lib/dbQueries";
 import { Pencil, Star } from "lucide-react";
 import { Reorder } from "framer-motion";
 import EditBoard from "./EditBoard";

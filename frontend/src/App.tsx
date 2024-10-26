@@ -1,6 +1,4 @@
-import { useState } from 'react'
 import './App.css'
-import { Button } from './components/ui/button'
 import { Route, Routes } from 'react-router-dom'
 import SignupForm from './components/SignupForm'
 import OnBoard from '@/components/Onboard'

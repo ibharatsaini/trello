@@ -13,9 +13,9 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import { useEffect, useState } from "react"
-import { ControllerRenderProps, useForm, useFormContext } from "react-hook-form"
+import { ControllerRenderProps, useFormContext } from "react-hook-form"
 
-export function DatePickerDemo({handleChanges,fields}:{handleChanges:Function,fields:ControllerRenderProps}) {
+export function DatePickerDemo({fields}:{handleChanges:Function,fields:ControllerRenderProps}) {
   const [date, setDate] = useState<Date>()
   const {setValue} = useFormContext()
   useEffect(()=>{

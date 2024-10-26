@@ -1,23 +1,14 @@
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm, useFormContext } from "react-hook-form"
+import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { Button } from "@/components/ui/button"
 import {
   Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
 } from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import axiosInstance from '@/lib/configureAxios'
 import { useNavigate } from "react-router-dom"
 import Field from "./shared/Field"
-import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { useMutation } from "@tanstack/react-query"
 import { signUp } from "@/lib/dbQueries"
-import { User, UserInput } from "@/lib/types"
 
 const formSchema = z.object({
     email: z.string().min(1, {
