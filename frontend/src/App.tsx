@@ -6,6 +6,9 @@ import SignupForm from './components/SignupForm'
 import OnBoard from '@/components/Onboard'
 import Board from './Board'
 import Login from './components/LoginForm'
+import Home from './components/Home'
+
+
 function App() {
 
   return (
@@ -14,7 +17,8 @@ function App() {
 
         {/* <Button>Click me</Button> */}
         <Routes>
-            <Route path='/signup' element={<SignupForm />}  />
+          <Route path='/' element={<Home />} />
+            <Route path='/sign-up' element={<SignupForm />}  />
             <Route path='/login' element={<Login />}  />
             <Route path='/onboard' element={<OnBoard />}  />
             <Route path="/board/:id" element={<Board />} />

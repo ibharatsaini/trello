@@ -1,13 +1,14 @@
 import axios from 'axios';
 
 // Check if running in production or development
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+const {VITE_API_BASE_URL, NODE_ENV} = import.meta.env
+const BASE_URL =  NODE_ENV == 'production' ?  VITE_API_BASE_URL : 'http://localhost:8080/' 
 // const API_BASE_URL = 'http://localhost:8080/'
 const cookies = document.cookie
 console.log(cookies)
 // Axios instance configuration
 const axiosInstance = axios.create({
-  baseURL: API_BASE_URL, 
+  baseURL: BASE_URL , 
   withCredentials: true
 });
 
