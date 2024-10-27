@@ -11,11 +11,26 @@ import boardRouter from './api/board.router'
 import listRouter from './api/list.router'
 import cardRouter from './api/card.router'
 
+
 const app = express();
 // app.use(cors());
+
+
+const allowedOrigins = [
+  "http://localhost:5173",
+  /\.vercel\.app$/ // regex to match any subdomain on vercel.app
+];
+
 app.use(cookieParser());
 app.use(cors({
-  origin: ['http://localhost:5173','http://localhost:4173','*.vercel.app'],
+  origin: (origin, callback) => {
+    // Allow requests with no origin, like mobile apps or curl requests
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.some((allowedOrigin) => allowedOrigin instanceof RegExp ? allowedOrigin.test(origin) : allowedOrigin === origin)) {
+      return callback(null, true);
+    }
+    return callback(new Error("Not allowed by CORS"));
+  },
   credentials: true, 
 }));
 app.use(express.json());
