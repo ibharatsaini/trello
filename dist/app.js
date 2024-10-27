@@ -16,10 +16,14 @@ const list_router_1 = __importDefault(require("./api/list.router"));
 const card_router_1 = __importDefault(require("./api/card.router"));
 const app = (0, express_1.default)();
 // app.use(cors());
+// const allowedOrigins = [
+//   "http://localhost:5173",
+//   /\.vercel\.app$/ // regex to match any subdomain on vercel.app
+// ];
 app.use((0, cookie_parser_1.default)());
 app.use((0, cors_1.default)({
-    origin: 'http://localhost:5173',
-    credentials: true,
+    origin: "*",
+    credentials: true
 }));
 app.use(express_1.default.json());
 app.use(express_1.default.static(path_1.default.resolve(__dirname, "..", "frontend", "build")));
