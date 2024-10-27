@@ -4,8 +4,7 @@ import axios from 'axios';
 const {VITE_API_BASE_URL, NODE_ENV} = import.meta.env
 const BASE_URL =  NODE_ENV == 'production' ?  VITE_API_BASE_URL : 'http://localhost:8080/' 
 // const API_BASE_URL = 'http://localhost:8080/'
-const cookies = document.cookie
-console.log(cookies)
+console.log(import.meta.env)
 // Axios instance configuration
 const axiosInstance = axios.create({
   baseURL: BASE_URL , 
