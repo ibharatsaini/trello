@@ -16,14 +16,22 @@ const list_router_1 = __importDefault(require("./api/list.router"));
 const card_router_1 = __importDefault(require("./api/card.router"));
 const app = (0, express_1.default)();
 // app.use(cors());
-// const allowedOrigins = [
-//   "http://localhost:5173",
-//   /\.vercel\.app$/ // regex to match any subdomain on vercel.app
-// ];
+const allowedOrigins = [
+    "http://localhost:5173",
+    /\.vercel\.app$/ // regex to match any subdomain on vercel.app
+];
 app.use((0, cookie_parser_1.default)());
 app.use((0, cors_1.default)({
-    origin: "*",
-    credentials: true
+    origin: (origin, callback) => {
+        // Allow requests with no origin, like mobile apps or curl requests
+        if (!origin)
+            return callback(null, true);
+        if (allowedOrigins.some((allowedOrigin) => allowedOrigin instanceof RegExp ? allowedOrigin.test(origin) : allowedOrigin === origin)) {
+            return callback(null, true);
+        }
+        return callback(new Error("Not allowed by CORS"));
+    },
+    credentials: true,
 }));
 app.use(express_1.default.json());
 app.use(express_1.default.static(path_1.default.resolve(__dirname, "..", "frontend", "build")));
