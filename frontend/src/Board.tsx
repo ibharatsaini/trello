@@ -1,66 +1,84 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import {  useNavigate, useParams } from "react-router-dom";
 import axiosInstance from "./lib/configureAxios";
 import { SidebarProvider } from "./components/ui/sidebar";
 import { AppSidebar } from "./components/AppSidebar";
-import { useQuery } from "@tanstack/react-query";
-import { getBoard, getCards, getLists } from "./lib/dbQueries";
-import { Pencil, Star } from "lucide-react";
+import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
+import { createCard, createList, getBoardById, getCards, getLists } from "./lib/dbQueries";
+import { FormInput, Pencil, Star } from "lucide-react";
 import { Reorder } from "framer-motion";
 import EditBoard from "./EditBoard";
 import { Dialog, DialogTrigger } from "./components/ui/dialog";
-
+import { Input } from "./components/ui/input";
+import { useForm } from "react-hook-form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "./components/ui/form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "./components/ui/button";
 
 interface CardContextType {
   cardId: string;
   handleCardId: Function;
 }
 
-export const CardContext = createContext<CardContextType>({ cardId:'', handleCardId: ()=>null});
-
+export const CardContext = createContext<CardContextType>({
+  cardId: "",
+  handleCardId: () => null,
+});
 
 function Board() {
   const { id } = useParams();
-  const { data: lists } = useQuery({
-    queryKey: ["lists"],
-    queryFn: () => getLists(),
-  });
-  const [cardId,setCardId] = useState('')
+  const queryClient = new QueryClient()
+  const navigate = useNavigate()
+  if(!id) navigate(`/onboard`)
 
-  const handleCardId = (id:string) =>{
-    setCardId(id)
-  }
+
+  const { data: lists } = useQuery({
+    queryKey: ["lists", id],
+    queryFn: () => getLists(id as string),    
+  });
+  const {mutate} = useMutation({
+    // mutationKey: 
+    mutationFn: createList,
+    onSuccess: ()=>{
+      queryClient.invalidateQueries({queryKey:['lists','cards']})
+    }
+  })
+  const [cardId, setCardId] = useState("");
+
+  const handleCardId = (id: string) => {
+    setCardId(id);
+  };
 
   useEffect(() => {
     axiosInstance
-      .get("api/board/67161a14145369bcf7da1a18")
+      .get(`api/board/${id}`)
       .then(({ data }) => console.log(data))
       .catch((e) => console.log(e));
   }, [id]);
   return (
-    <CardContext.Provider value={{cardId,handleCardId}}>
-    <Dialog>
-
-      <div className="w-full">
-        <SidebarProvider>
-          <div className="w-full h-full flex fle-row bg-[#af2a74]">
-            <div className="w-72">
-              <AppSidebar />
-            </div>
-            <div className="w-full h-screen flex flex-col">
-              <BoardHeader />
-              <div className="w-full h-screen p-8 box-border gap-4 flex flex-row">
-                {lists &&
-                  lists.map((el: any) => <List key={el._id} lists={el} />)}
+    <CardContext.Provider value={{ cardId, handleCardId }}>
+      <Dialog>
+        <div className="w-full">
+          <SidebarProvider>
+            <div className="w-full h-full flex fle-row bg-[#af2a74]">
+              <div className="w-72">
+                <AppSidebar />
+              </div>
+              <div className="w-full h-screen flex flex-col">
+                <BoardHeader />
+                <div className="w-full h-screen p-8 box-border gap-4 flex flex-row">
+                  {lists &&
+                    lists.map((el: any) => <List key={el._id} lists={el} />)}
+                  <AddList mutationFn={mutate} />
+                </div>
               </div>
             </div>
-          </div>
-        </SidebarProvider>
-        <EditBoard />
-        {/* </Dialog> */}
-      </div>
-
-    </Dialog>
+          </SidebarProvider>
+          <EditBoard />
+          {/* </Dialog> */}
+        </div>
+      </Dialog>
     </CardContext.Provider>
   );
 }
@@ -71,7 +89,7 @@ function BoardHeader() {
   if (!id) return <></>;
   const { data } = useQuery({
     queryKey: ["baord", id],
-    queryFn: () => getBoard(id),
+    queryFn: () => getBoardById(id),
   });
   console.log(data);
   // useEffect(()=>{
@@ -119,6 +137,8 @@ function List({ lists }: { lists: any }) {
             <Card  /> */}
               </Reorder.Item>
             ))}
+            <AddCard listId={lists._id} />
+            
         </div>
       </div>
     </Reorder.Group>
@@ -127,23 +147,151 @@ function List({ lists }: { lists: any }) {
 
 function Card({ card }: { card: any }) {
   const [active, setActive] = useState(false);
-  console.log(card)
-  const {handleCardId} = useContext(CardContext)
+  console.log(card);
+  const { handleCardId } = useContext(CardContext);
   // const []
   return (
     // <CardContext.Provider value={}>
     <div
-      className="bg-[#22272B] hover:outline hover:outline-2 rounded p-2 relative cursor-pointer"
+      className="c hover:outline hover:outline-2 rounded p-2 relative cursor-pointer"
       onMouseOut={() => setActive(false)}
       onMouseOver={() => setActive(true)}
     >
       {active && (
         <DialogTrigger asChild>
-          <Pencil onClick={()=>handleCardId(card._id)} className="absolute box-content top-1 right-0 mr-2  w-[13px] opacity-50 hover:bg-[rgba(255,255,255,0.1)] p-1 px-2 rounded-full" />
+          <Pencil
+            onClick={() => handleCardId(card._id)}
+            className="absolute box-content top-1 right-0 mr-2  w-[13px] opacity-50 hover:bg-[rgba(255,255,255,0.1)] p-1 px-2 rounded-full"
+          />
         </DialogTrigger>
       )}
       <h3>{card.title}</h3>
     </div>
   );
 }
+
+
+const listSchema = z.object({
+  title: z.string()
+})
+
+function AddList({mutationFn}:{mutationFn:Function}) {
+  const { id } = useParams()
+  const [listForm, setListForm] = useState(false)
+  const form = useForm<z.infer<typeof listSchema>>({
+    resolver: zodResolver(listSchema),
+    defaultValues: {
+      title:""
+    }
+  })
+  function onSubmit(data:any){
+    console.log(data)
+    mutationFn({
+      ...data,
+      boardId:id
+    })
+  }
+
+  
+  return (
+    <div className="min-w-64 bg-[#101204] text-[#B6C2CF] h-max rounded-xl px-4 py-4">
+      {/* <h2>{lists.title}</h2> */}
+     { listForm ? (<>
+        <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)}>
+              <FormField
+                    control={form.control}
+                    name={"title"}
+                    // defaultValue={card.title}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-left">Title</FormLabel>
+                        <FormControl>
+                          <Input placeholder="sldf" {...field} />
+                        </FormControl>
+                        {/* <FormDescription>{description}</FormDescription> */}
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <div className="flex flex-row gap-2">
+                <Button type="submit" className="mt-2">Add list</Button>
+                <Button variant={'destructive'} onClick={()=>setListForm(false)} className="mt-2">Remove</Button>
+
+
+                  </div>
+              </form>
+        </Form>
+     </>) : (<div onClick={()=>setListForm(true)} className="mt-3 flex gap-2 flex-col cursor-pointer">
+          + Add list
+        
+      </div>)}
+
+    </div>
+  );
+}
+
+
+
+function AddCard({ listId}:{listId:string}) {
+  // const { id } = useParams()
+  const [listForm, setListForm] = useState(false)
+  const queryClient = new QueryClient()
+  const {mutate} = useMutation({
+    mutationFn: createCard,
+    onSuccess: ()=>queryClient.invalidateQueries({queryKey:['cards']})
+  })
+  const form = useForm<z.infer<typeof listSchema>>({
+    resolver: zodResolver(listSchema),
+    defaultValues: {
+      title:""
+    }
+  })
+  function onSubmit(data:any){
+    console.log(data)
+    mutate({
+      ...data,
+      listId:listId
+    })
+  }
+
+  
+  return (
+    <div className="min-w-64 bg-[#101204] text-[#B6C2CF] h-max rounded-xl px-4 py-4">
+      {/* <h2>{lists.title}</h2> */}
+     { listForm ? (<>
+        <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)}>
+              <FormField
+                    control={form.control}
+                    name={"title"}
+                    // defaultValue={card.title}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-left">Title</FormLabel>
+                        <FormControl>
+                          <Input placeholder="sldf" {...field} />
+                        </FormControl>
+                        {/* <FormDescription>{description}</FormDescription> */}
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <div className="flex flex-row gap-2">
+                <Button type="submit" className="mt-2">Add list</Button>
+                <Button variant={'destructive'} onClick={()=>setListForm(false)} className="mt-2">Remove</Button>
+
+
+                  </div>
+              </form>
+        </Form>
+     </>) : (<div onClick={()=>setListForm(true)} className="mt-3 flex gap-2 flex-col cursor-pointer">
+          + Add Card
+        
+      </div>)}
+
+    </div>
+  );
+}
+
 export default Board;

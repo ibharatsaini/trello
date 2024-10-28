@@ -12,6 +12,8 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { Separator } from "@radix-ui/react-separator";
+import { useQuery } from "@tanstack/react-query";
+import { getAllBoard } from "@/lib/dbQueries";
 
 // Menu items.
 const items = [
@@ -43,6 +45,13 @@ const items = [
 ];
 
 export function AppSidebar() {
+
+  const {data}  = useQuery({
+    queryFn: ()=>getAllBoard(),
+    queryKey: ['allBoard']
+  })
+
+  console.log(data)
   return (
     <Sidebar className="text-[#9FADBC] w-64 box-content">
       <SidebarHeader className="w-full flex-row m-2">
@@ -77,11 +86,11 @@ export function AppSidebar() {
           <SidebarGroupLabel className="text-[#9FADBC]">Your boards</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
+              { data && data.map((item:{_id:string,title:string}) => (
+                <SidebarMenuItem key={item._id}>
                   <SidebarMenuButton asChild>
-                    <a className="text-[#9FADBC]" href={item.url}>
-                      <item.icon />
+                    <a className="text-[#9FADBC]" href={`/board/${item._id}`}>
+                      <Proportions />
                       <span>{item.title}</span>
                     </a>
                   </SidebarMenuButton>

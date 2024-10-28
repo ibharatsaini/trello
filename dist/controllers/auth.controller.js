@@ -12,9 +12,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.login = exports.signUp = void 0;
+exports.validateUser = exports.login = exports.signUp = void 0;
 const user_model_1 = __importDefault(require("../models/user.model"));
 const tokens_1 = require("../config/tokens");
+const board_model_1 = __importDefault(require("../models/board.model"));
 const signUp = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { email, firstName, lastName, password, confirmPassword } = req.body;
@@ -53,8 +54,12 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             return;
         }
         (0, tokens_1.sendToken)(user, res);
+        const board = yield board_model_1.default.findOne({ owner: user._id });
         res.status(200).json({
-            data: user,
+            data: {
+                user,
+                board: board
+            },
         });
         return;
     }
@@ -66,3 +71,16 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.login = login;
+const validateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        res.status(200).json({
+            data: req.user
+        });
+    }
+    catch (e) {
+        res.status(401).json({
+            message: `User not authenticated`
+        });
+    }
+});
+exports.validateUser = validateUser;

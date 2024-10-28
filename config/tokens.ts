@@ -24,6 +24,8 @@ const sendToken = (user:any, res: Response) => {
     user = user.toObject()
     delete user.password
  }
+  
+
 
  res.cookie('token',token,options)
     // .json({

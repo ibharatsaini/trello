@@ -7,8 +7,10 @@ import {
 } from "@/components/ui/form"
 import { useNavigate } from "react-router-dom"
 import Field from "./shared/Field"
-import { useMutation } from "@tanstack/react-query"
-import { login } from "@/lib/dbQueries"
+import { useMutation, useQuery } from "@tanstack/react-query"
+import { getBoard, login } from "@/lib/dbQueries"
+import { useAuth } from "@/context/AuthContext"
+import { useEffect, useState } from "react"
 
 const formSchema = z.object({
     email: z.string().min(1, {
@@ -26,13 +28,38 @@ function Login() {
         resolver: zodResolver(formSchema)
     })
     const navigate = useNavigate()
+    
+    const {handleAuthentication, isAuthenticated} = useAuth()
+
+    const [user,setUser] = useState<{board:{_id:string}}>()
+
     // const queryClient = useQueryClient()
     const {mutate}= useMutation({
         mutationFn: login,
-        onSuccess: ()=>{
-            navigate(`/onboard`)
+        onSuccess: (data)=>{
+            handleAuthentication(true)
+            setUser(data)
+            // console.log(data)
+            // navigate(`/onboard`)
         }
     })
+
+    const {data,error} = useQuery({
+      queryFn: ()=>getBoard(),
+      queryKey: ['board']
+    })
+
+
+    useEffect(()=>{
+      console.log(user, isAuthenticated, user?.board._id)
+        if( user?.board._id) navigate(`/board/${user?.board._id}`)
+          if(user && !user.board) navigate(`/onboard`)
+          // navigate(`/onboard`)
+        // if(user && user) navigate(`/onboard`)
+    },[user])
+    // useEffect(()=>{
+    //     isAuthenticated && navigate(`/onboard`)
+    // },[isAuthenticated])
     // const [signup, setSetup] = useState({
     //     email:'',
     //     firstName:'',
@@ -50,7 +77,10 @@ function Login() {
     }
 
    
-
+   if(isAuthenticated){
+    console.log(data)
+       data && navigate(`/board/${data._id}`)
+   }
 
 
 

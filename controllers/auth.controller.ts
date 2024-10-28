@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import User from "../models/user.model";
 import { sendToken } from "../config/tokens";
+import Board from "../models/board.model";
+import { RequestUser } from "../middlewares/authentication.middleware";
 
 const signUp = async (req: Request, res: Response) => {
   try {
@@ -43,9 +45,13 @@ const login = async (req: Request, res: Response) => {
 
 
     sendToken(user,res)
-
+    const board = await Board.findOne({owner:user._id})
+    
     res.status(200).json({
-      data: user,
+      data: {
+        user,
+        board: board
+      },
     });
     return;
   } catch (err) {
@@ -56,6 +62,18 @@ const login = async (req: Request, res: Response) => {
   }
 };
 
+const validateUser = async (req:RequestUser,res:Response) =>{
+      try{
+        res.status(200).json({
+          data: req.user
+        })
+      }catch(e){
+        res.status(401).json({
+          message: `User not authenticated`
+        })
+      }
+}
 
 
-export { signUp, login };
+
+export { signUp, login, validateUser };

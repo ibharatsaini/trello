@@ -15,6 +15,10 @@ const listModel = new mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     ref: "user",
   },
+  board:{
+      type: mongoose.Schema.ObjectId,
+      ref: "board",
+  },
   order: [
     {
       // taskId: {

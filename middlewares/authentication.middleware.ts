@@ -11,7 +11,7 @@ const JWT_SECRET = process.env.JWT_SECRET || "SECRET";
 //     _id:string,
 //     password ?: string
 // }
-interface RequestUser extends Request {
+export interface RequestUser extends Request {
   user?: IUser;
 }
 

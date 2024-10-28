@@ -9,6 +9,7 @@ const authentication_middleware_1 = __importDefault(require("../middlewares/auth
 const router = (0, express_1.Router)();
 // router.route('/create').post(createBoard)
 router.route('/all').get(authentication_middleware_1.default, card_controller_1.getAllCards);
-router.route('/:id').get(authentication_middleware_1.default, card_controller_1.getCardById);
+router.route('/create/:listId').post(authentication_middleware_1.default, card_controller_1.createCard);
 router.route('/update/:cardId').post(authentication_middleware_1.default, card_controller_1.updateFields);
+router.route('/:id').get(authentication_middleware_1.default, card_controller_1.getCardById);
 exports.default = router;

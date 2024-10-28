@@ -1,27 +1,32 @@
-import './App.css'
-import { Route, Routes } from 'react-router-dom'
-import SignupForm from './components/SignupForm'
-import OnBoard from '@/components/Onboard'
-import Board from './Board'
-import Login from './components/LoginForm'
-import Home from './components/Home'
-
+import "./App.css";
+import { Route, Routes } from "react-router-dom";
+import SignupForm from "./components/SignupForm";
+import OnBoard from "@/components/Onboard";
+import Board from "./Board";
+import Login from "./components/LoginForm";
+import Home from "./components/Home";
+import ProtectedRoute from "./components/ProtectedRoute";
+import { AuthProvider } from "./context/AuthContext";
 
 function App() {
-
+  // const
   return (
     <>
       {/* <div className='mt-2 font-inter'> */}
 
-        {/* <Button>Click me</Button> */}
+      {/* <Button>Click me</Button> */}
+      <AuthProvider>
         <Routes>
-          <Route path='/' element={<Home />} />
-            <Route path='/sign-up' element={<SignupForm />}  />
-            <Route path='/login' element={<Login />}  />
-            <Route path='/onboard' element={<OnBoard />}  />
+          <Route path="/" element={<Home />} />
+          <Route path="/sign-up" element={<SignupForm />} />
+          <Route path="/login" element={<Login />} />
+          {/* <Route  element={<ProtectedRoute />}> */}
+            <Route path="/onboard" element={<OnBoard />} />
             <Route path="/board/:id" element={<Board />} />
+          {/* </Route> */}
         </Routes>
-        {/* <a href="https://vitejs.dev" target="_blank">
+      </AuthProvider>
+      {/* <a href="https://vitejs.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
         </a>
         <a href="https://react.dev" target="_blank">
@@ -41,7 +46,7 @@ function App() {
         Click on the Vite and React logos to learn more
       </p> */}
     </>
-  )
+  );
 }
 
-export default App
+export default App;

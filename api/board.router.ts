@@ -1,11 +1,13 @@
 import { Router } from "express"
-import { createBoard, getBoard } from "../controllers/board.controller"
+import { createBoard, getBoard, getBoardById, getAllBoard } from "../controllers/board.controller"
 import authenticateUser from "../middlewares/authentication.middleware"
 
 const router = Router()
 
-router.route('/create').post(createBoard)
-router.route('/:id').get(authenticateUser,getBoard)
+router.route('/create').post(authenticateUser, createBoard)
+router.route('/all').get(authenticateUser,getAllBoard)
+router.route('/get-board').get(authenticateUser,getBoard)
+router.route('/:id').get(authenticateUser,getBoardById)
 
 
 export default router

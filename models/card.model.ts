@@ -8,12 +8,12 @@ const cardModel = new mongoose.Schema({
     },
     description:{
         type:String,
-        required:[true,"Title is required."]
+        // required:[true,"Title is required."]
     },
-    list:{
-        type:mongoose.Schema.ObjectId,
-        ref:"list"
-    },
+    // list:{
+    //     type:mongoose.Schema.ObjectId,
+    //     ref:"list"
+    // },
     owner:{
         type:mongoose.Schema.ObjectId,
         ref:"user"

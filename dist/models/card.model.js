@@ -11,12 +11,12 @@ const cardModel = new mongoose_1.default.Schema({
     },
     description: {
         type: String,
-        required: [true, "Title is required."]
+        // required:[true,"Title is required."]
     },
-    list: {
-        type: mongoose_1.default.Schema.ObjectId,
-        ref: "list"
-    },
+    // list:{
+    //     type:mongoose.Schema.ObjectId,
+    //     ref:"list"
+    // },
     owner: {
         type: mongoose_1.default.Schema.ObjectId,
         ref: "user"
