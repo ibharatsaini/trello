@@ -5,7 +5,6 @@ import OnBoard from "@/components/Onboard";
 import Board from "./Board";
 import Login from "./components/LoginForm";
 import Home from "./components/Home";
-import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthProvider } from "./context/AuthContext";
 
 function App() {

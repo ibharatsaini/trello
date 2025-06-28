@@ -5,7 +5,7 @@ import { SidebarProvider } from "./components/ui/sidebar";
 import { AppSidebar } from "./components/AppSidebar";
 import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
 import { createCard, createList, getBoardById, getCards, getLists } from "./lib/dbQueries";
-import { FormInput, Pencil, Star } from "lucide-react";
+import {  Pencil, Star } from "lucide-react";
 import { Reorder } from "framer-motion";
 import EditBoard from "./EditBoard";
 import { Dialog, DialogTrigger } from "./components/ui/dialog";

@@ -1,6 +1,6 @@
 // AuthContext.tsx
 import { validateUser } from "@/lib/dbQueries";
-import { useQueries, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import React, { createContext, useContext, useState, ReactNode, useEffect } from "react";
 
 interface AuthContextType {

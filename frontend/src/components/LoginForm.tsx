@@ -44,7 +44,7 @@ function Login() {
         }
     })
 
-    const {data,error} = useQuery({
+    const {data} = useQuery({
       queryFn: ()=>getBoard(),
       queryKey: ['board']
     })
