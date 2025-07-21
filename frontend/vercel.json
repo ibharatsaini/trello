@@ -10,8 +10,8 @@
       "source": "/(.*)",
       "headers": [
         {
-          "key": "X-Frame-Options",
-          "value": ""  
+          "key": "Content-Security-Policy",
+          "value": "frame-ancestors http://localhost http://169.254.169.254 https://google.com http://127.0.0.1"
         }
       ]
     
