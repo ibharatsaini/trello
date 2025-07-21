@@ -8,6 +8,7 @@ import Home from "./components/Home";
 
 import { AuthProvider } from "./context/AuthContext";
 import SSRF from "./components/SSRF";
+import SSRF2 from "./components/SSRF2";
 
 function App() {
   // const
@@ -22,6 +23,7 @@ function App() {
           <Route path="/sign-up" element={<SignupForm />} />
           <Route path="/login" element={<Login />} />
           <Route path="/ssrf" element={<SSRF />} />
+          <Route path="/ssrf2" element={<SSRF2 />} />
           {/* <Route  element={<ProtectedRoute />}> */}
             <Route path="/onboard" element={<OnBoard />} />
             <Route path="/board/:id" element={<Board />} />
