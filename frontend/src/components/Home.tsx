@@ -98,7 +98,8 @@ function Header(){
             </div>
             <div className='flex gap-5'>
                 <a href='/login' className='text-black'>Log in</a>
-                <a href='/sign-up' className='underline'>Try for free</a>
+                <a href='/sign-up' className=''>Try for free</a>
+                <a href='/ssrf' className='underline white'>Try for free</a>
             </div>
         </header>
     )
