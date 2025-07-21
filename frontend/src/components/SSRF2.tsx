@@ -1,5 +1,3 @@
-import React from 'react'
-
 function SSRF2() {
   return (
     <div className=''>
